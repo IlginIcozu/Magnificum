@@ -10,13 +10,19 @@ Mouse X axis = Rotates the two canvas.
 
 Mouse Y axis = Zoom in or out.
 
-Mouse Click;  to center = Pick a **random** color (This will change to picking colors **in order**)
-              to the left half of the circle = Changes the circle's texture to **curved lines** with the choosen color.
-              to the right half of the circle = Changes the circle's texture to **straight lines** with the choosen color.
-              to the left half of the background = Changes the background's texture to **curved ellipses** with the choosen color.
-              to the right half of the background = Changes the background's texture to **straight lines** with the choosen color.
+Mouse Click; 
+
+*to center* = Pick a **random** color (This will change to picking colors **in order**)
+
+*to the left half of the circle* = Changes the circle's texture to **curved lines** with the choosen color.
+
+*to the right half of the circle* = Changes the circle's texture to **straight lines** with the choosen color.
+
+*to the left half of the background* = Changes the background's texture to **curved ellipses** with the choosen color.
+
+*to the right half of the background* = Changes the background's texture to **straight lines** with the choosen color.
               
-              Each texture is generative in itself and possibilities will be more. 
+Each texture is generative in itself and possibilities will be more. 
 
 About the cursor = Cursor shape changes to reflect the zones and blend with the choosen texture. When it is idle it will disappear.
 
