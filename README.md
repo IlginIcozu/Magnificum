@@ -18,7 +18,7 @@ Mouse Click;
 
 *to the right half of the circle* = Changes the circle's texture to **straight lines** with the choosen color.
 
-*to the left half of the background* = Changes the background's texture to **curved lines** with the choosen color.
+*to the left half of the background* = Changes the background's texture to **curved thick lines** with the choosen color.
 
 *to the right half of the background* = Changes the background's texture to **straight lines** with the choosen color.
               
