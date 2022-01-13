@@ -28,6 +28,6 @@ About the cursor = Cursor shape changes to reflect the choosen textures in the i
 
 **Find your sweetspot and enjoy!**
 
-![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro1.png)
-![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro2.png)
-![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro3.png)
+![Image of microMacro](https://github.com/IlginIcozu/MicroMacro/blob/main/microMacro1.png)
+![Image of microMacro](https://github.com/IlginIcozu/MicroMacro/blob/main/microMacro2.png)
+![Image of microMacro](https://github.com/IlginIcozu/MicroMacro/blob/main/microMacro3.png)
