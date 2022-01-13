@@ -27,3 +27,7 @@ Each texture is generative in itself and I will add more possibilities.
 About the cursor = Cursor shape changes to reflect the choosen textures in the indicated zone. When it is idle it will disappear.
 
 **Find your sweetspot and enjoy!**
+
+![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro1.png)
+![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro2.png)
+![Image of microMacro](https://github.com/IlginIcozu/poan/blob/main/microMacro3.png)
