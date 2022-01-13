@@ -12,7 +12,7 @@ Mouse Y axis = Zoom in or out.
 
 Mouse Click; 
 
-*to center* = Pick a **random** color (ın the final this will change to; Pick a color **in order**)
+*to center* = Pick a **random** color (in the final this will change to; Pick a color **in order**)
 
 *to the left half of the circle* = Changes the circle's texture to **curved lines** with the choosen color.
 
