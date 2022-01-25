@@ -10,7 +10,8 @@ let grandAlpha = 0.4
 
 let colMult
 let baseCol
-let baseS, baseB, randMult, baseC
+let baseS, baseB, randMult, baseC, baseCArray
+let colSel = 0
 let alphaD, alphaD2
 let minX, maxX, minY, maxY
 let centerX, centerY
@@ -23,11 +24,16 @@ let colMin, colMax
 
 let plaX, plaY, plaMaxX, plaMaxY
 let plaCenterX, plaCenterY
-let anguloIncremento
+let angleMan, angleInc
 let canvas2, canvas3, canvas4
 let ellipSize
 let xoff, yoff, zoff
 let mouseIsMoving = false;
+
+let canvas3Scale = 4;
+let zoomScl = 2
+let cokluMult
+let cokluMult2
 
 
 
@@ -42,7 +48,7 @@ let textRand, textRand3
 
 function grad() {
 
-    for (i = 0; i < 500000; i++) {
+    for (i = 0; i < height * 125; i++) {
         points.push(new Point());
     }
     for (let i = 0; i < points.length; i++) {
@@ -53,7 +59,7 @@ function grad() {
 
 function grad2() {
 
-    for (i = 0; i < 500000; i++) {
+    for (i = 0; i < height * 125; i++) {
         points2.push(new Point2());
     }
     for (let i = 0; i < points.length; i++) {
@@ -70,8 +76,8 @@ class Point {
         this.w = 1
     }
     show() {
-        canvas3.stroke(baseC, 50, 60, random(0.5))
-        canvas3.strokeWeight(random(0, 1.4))
+        canvas3.stroke(baseC, 50, random(60,70), random(0.5))
+        canvas3.strokeWeight(random(0, height/2857.142857142857))
         canvas3.point(this.pos.x, this.pos.y)
     }
 }
@@ -82,8 +88,8 @@ class Point2 {
         this.w = 1
     }
     show() {
-        canvas2.stroke(baseC, 50, 60, random(0.5))
-        canvas2.strokeWeight(random(0, 1.4))
+        canvas2.stroke(baseC, 50, random(60,70), random(0.5))
+        canvas2.strokeWeight(random(0, height/2857.142857142857))
         canvas2.point(this.pos.x, this.pos.y)
     }
 }
@@ -93,10 +99,12 @@ class Point2 {
 
 function setup() {
     // createCanvas(windowWidth, windowHeight);
-    createCanvas(4000, 4000);
-    canvas2 = createGraphics(4000, 4000)
-    canvas3 = createGraphics(4000, 4000)
-    canvas4 = createGraphics(4000, 4000)
+    let sizeX = windowHeight
+    let sizeY = windowHeight
+    createCanvas(windowWidth, windowHeight);
+    canvas2 = createGraphics(sizeX, sizeY)
+    canvas3 = createGraphics(sizeX, sizeY)
+    canvas4 = createGraphics(sizeX, sizeY)
     canvas2.clear()
     canvas3.clear()
     canvas4.clear()
@@ -125,6 +133,7 @@ function setup() {
 
     canvas2.noFill()
     canvas2.smooth()
+
     canvas3.noFill()
     canvas3.smooth()
 
@@ -137,6 +146,7 @@ function setup() {
 
     canvas3.noFill()
     canvas3.smooth()
+
     noFill()
     smooth()
 
@@ -148,32 +158,36 @@ function setup() {
     yoff = 0.0001
     zoff = 0.000001;
 
-    angulo = random(20);
+    angleMan = random(20);
     background(0, 0, 9)
+
     canvas2.background(0, 0, 9, 0)
     canvas3.background(0, 0, 9, 0)
     canvas4.background(0, 0, 9, 0)
 
     translate(width / 2, height / 2)
-    canvas2.translate(width / 2, height / 2)
-    canvas3.translate(width / 2, height / 2)
-    canvas4.translate(width / 2, height / 2)
+    canvas2.translate(canvas2.width / 2, canvas2.height / 2)
+    canvas3.translate(canvas3.width / 2, canvas3.height / 2)
+    canvas4.translate(canvas4.width / 2, canvas4.height / 2)
 
-    anguloIncremento = 5;
+    angleInc = 5;
 
     noCursor()
 
     textRand = random(1)
+    cokluMult = random([1,2])
+    cokluMult2 = 4
 
     canvas3Draw();
     canvas2Draw();
-    canvas4Draw()
+    canvas4Draw();
 
 
 }
 
 function col() {
-    baseC = random([20, 150, 200, 350]);
+    baseCArray = [20,70,170, 200,250, 350];
+    baseC = baseCArray[colSel]
     baseS = 30;
     baseB = 20;
 
@@ -188,39 +202,16 @@ function canvas4Draw() {
 
     canvas4.push()
 
-    // canvas4.beginShape()
-    // canvas4.noFill()
-    // canvas4.stroke(0, 0, 9, 1)
-    // for (let a = 0; a < TWO_PI; a += 0.1) {
-
-    //     let x = cos(a) * 1000;
-    //     let y = sin(a) * 1000;
-    //     canvas4.drawingContext.shadowOffsetX = 0;
-    //     canvas4.drawingContext.shadowOffsetY = 0;
-    //     canvas4.drawingContext.shadowBlur = 100;
-    //     canvas4.drawingContext.shadowColor = color(baseC, 20, 25);
-    //     canvas4.vertex(x, y)
-    //     canvas4.drawingContext.shadowBlur = 0;
-    // }
-    // canvas4.endShape()
-
-
-
-
-
-
     // canvas3.translate(width / 2, height / 2)
-    canvas4.drawingContext.shadowOffsetX = -50;
-    canvas4.drawingContext.shadowOffsetY = 50;
-    canvas4.drawingContext.shadowBlur = 100;
+    canvas4.drawingContext.shadowOffsetX = -canvas4.width/80;
+    canvas4.drawingContext.shadowOffsetY = canvas4.height/80;
+    canvas4.drawingContext.shadowBlur = height/20;
     canvas4.drawingContext.shadowColor = color(baseC, 0, 0);
     canvas4.noStroke()
     canvas4.fill(0, 0, 9, 1)
     // canvas4.strokeWeight(0.1)
-    canvas4.ellipse(0, 0, 2000)
+    canvas4.ellipse(0, 0, canvas4.height / 2)
     canvas4.drawingContext.shadowBlur = 0;
-
-
 
 
     canvas4.pop()
@@ -231,11 +222,12 @@ function canvas4Draw() {
 function canvas3Draw() {
     canvas3.background(0, 0, 9, 1)
     canvas3.push()
+    canvas3.scale(canvas3Scale/8)
     // textRand3 = random(1)
-    for (let y = -300; y <= height + 100; y += 50) {
+    for (let y = -300; y <= height + 100; y += height/80) {
         canvas3.beginShape()
-        a = abs(sin(angulo) + 5) * 5;
-        for (let x = -300; x <= width + 100; x += 10) {
+        a = abs(sin(angleMan) + 5) * 5;
+        for (let x = -300; x <= canvas3.width + 100; x += height/200 * cokluMult) {
 
             angle = map(noise.noise2D(x * mult, y * mult), 0, 1, 0, TWO_PI * 10);
 
@@ -243,7 +235,7 @@ function canvas3Draw() {
 
             alphaD = random(0.5)
 
-            canvas3.strokeWeight(random(1.5) * a)
+            canvas3.strokeWeight(random(height / 2666.666666666667) * a)
 
             canvas3.rotate(angle / 1000) // angle/1000
 
@@ -253,11 +245,11 @@ function canvas3Draw() {
                 canvas3.curveVertex((x + tan(angle) * a) + randomGaussian(-10, 10), (y + tan(angle) * a) + randomGaussian(-10, 10))
             }
 
-            if (random(0, 1) > random(0.1, 0.9)) {
+            if (random(1) > random(0.1, 0.9)) {
                 canvas3.endShape();
                 canvas3.beginShape();
             }
-            angulo += anguloIncremento;
+            angleMan += angleInc;
             canvas3.endShape();
         }
     }
@@ -275,15 +267,16 @@ function canvas3Draw() {
 function canvas2Draw() {
     canvas2.background(0, 0, 9, 1)
     canvas2.push()
+    canvas2.scale(zoomScl/4)
     // textRand = random(1)
-    for (let y = -300; y <= height + 100; y += 50) {
+    for (let y = -300; y <= height + 100; y += height/80) {
         canvas2.beginShape()
-        a = abs(sin(angulo) + 5) * 5;
-        for (let x = -300; x <= width + 100; x += 10) {
+        a = abs(sin(angleMan) + 5) * 5;
+        for (let x = -300; x <= canvas2.width + 100; x += height/400 * cokluMult2) {
 
             angle = map(noise.noise2D(x * mult, y * mult), 0, 1, 0, TWO_PI * 10);
 
-            alphaD2 = map(dist(width / 2, height / 2, x, y), 0, 4000, 0, 1)
+            alphaD2 = map(dist(canvas2.width / 2, canvas2.height / 2, x, y), 0, canvas2.height, random(0.3),random(0.6,1) )
 
             drawingContext.setLineDash([]);
 
@@ -298,18 +291,19 @@ function canvas2Draw() {
             } else if (textRand > 0.20 && textRand < 0.40) {
                 canvas2.curveVertex((x + tan(angle) * a) + random(-10, 10), (y + sin(angle) * a) + random(-10, 10)) // yumak 2
             } else if (textRand > 0.40 && textRand < 0.60) {
-                canvas2.curveVertex((x + tan(angle) * a) + random(-10, 10), (y + sq(angle) * a) + random(-10, 10)) // silik tan
+                canvas2.curveVertex((x + sqrt(angle) * a) + random(-10, 10), (y + sqrt(angle/2) * a) + random(-10, 10)) // silik tan
             } else if (textRand > 0.60 && textRand < 0.80) {
                 canvas2.curveVertex((x + cos(angle) * a) + random(-10, 10), (y + sin(angle) * a) + random(-10, 10)) // silik 1
             } else if (textRand > 0.80) {
                 canvas2.curveVertex((x + sin(angle) * a) + random(-10, 10), (y + sin(angle) * a) + random(-10, 10)) // silik 2
             }
 
-            if (random(0, 1) > 0.9) {
+
+            if (random(1) > 0.9) {
                 canvas2.endShape();
                 canvas2.beginShape();
             }
-            angulo += anguloIncremento;
+            angleMan += angleInc;
             canvas2.endShape();
         }
 
@@ -326,9 +320,9 @@ function draw() {
 
     push()
     translate(width / 2, height / 2)
-    let size = map(mouseY, 0, height, 10000, 3000)
+    let size = map(mouseY, 0, height, height * 1.5, height / 1.33333333)
     rotate(map(mouseX, 0, width, 1, 0))
-    image(canvas3, 0, 0, size * 2, size * 2)
+    image(canvas3, 0, 0, size * canvas3Scale, size * canvas3Scale)
     pop()
 
 
@@ -340,7 +334,7 @@ function draw() {
     if (mouseMoved()) {
         rotate(map(noise.noise3D(xoff, yoff, zoff), 0, 1, -2, 2))
     }
-    image(canvas4, 0, 0, 6000, 6000)
+    image(canvas4, 0, 0, canvas4.height * 1.5, canvas4.height * 1.5)
     pop()
 
 
@@ -353,17 +347,17 @@ function draw() {
 
     }
 
-    ellipSize = map(mouseY, 0, height, 1500, 10000)
+    ellipSize = map(mouseY, 0, height, height / 2.7, height * 1.5)
 
     fill(0, 0, 9, 0)
 
     stroke(0, 0, 0, 0)
 
-    ellipse(0, 0, 3000)
+    ellipse(0, 0, height / 1.33333333)
 
     drawingContext.clip()
 
-    image(canvas2, 0, 0, ellipSize * 2, ellipSize * 2)
+    image(canvas2, 0, 0, ellipSize * zoomScl, ellipSize * zoomScl)
     pop()
 
 
@@ -377,7 +371,7 @@ function draw() {
     push()
     translate(0, 0)
     if (mouseIsPressed == true) {
-        if (dist(mouseX, mouseY, width / 2, height / 2) > 500 && dist(mouseX, mouseY, width / 2, height / 2) < 1500) {
+        if (dist(mouseX, mouseY, width / 2, height / 2) > height/8 && dist(mouseX, mouseY, width / 2, height / 2) < height/2 - height/8) {
             if (mouseX > width / 2) {
                 textRand = random(0, 0.40)
             } else {
@@ -385,8 +379,9 @@ function draw() {
             }
             canvas2.clear()
             canvas2Draw();
+           
         }
-        if (dist(mouseX, mouseY, width / 2, height / 2) > 1500) {
+        if (dist(mouseX, mouseY, width / 2, height / 2) > height/2 - height/8) {
 
             if (mouseX < width / 2) {
                 textRand3 = 0
@@ -406,7 +401,7 @@ function draw() {
 
 
     push()
-    if (dist(width / 2, height / 2, mouseX, mouseY) < 500) {
+    if (dist(width / 2, height / 2, mouseX, mouseY) < height / 8) {
         // noStroke()
         if (mouseIsMoving == false) {
             grandAlpha -= 0.002
@@ -415,32 +410,32 @@ function draw() {
         }
         noStroke()
         fill(baseC, 50, 50, grandAlpha)
-        circle(mouseX, mouseY, 100)
-    } else if (dist(width / 2, height / 2, mouseX, mouseY) > 500 && dist(width / 2, height / 2, mouseX, mouseY) < 1500) {
+        circle(mouseX, mouseY, height / 40)
+    } else if (dist(width / 2, height / 2, mouseX, mouseY) > height / 8 && dist(width / 2, height / 2, mouseX, mouseY) < height / 2.666666666666) {
         if (mouseX < width / 2) {
             if (mouseIsMoving == false) {
                 grandAlpha -= 0.004
             } else {
                 grandAlpha = 1
             }
-            strokeWeight(10)
+            strokeWeight(height / 400)
             stroke(baseC, 65, 50, grandAlpha)
             // curveTightness(4);
             bezierDetail(1)
-            bezier(mouseX - 100, mouseY, mouseX - 50, mouseY - 200, mouseX, mouseY + 50, mouseX + 100, mouseY - 100)
-            strokeWeight(4)
-            bezier(mouseX - 100, mouseY - 25, mouseX - 50, mouseY - 225, mouseX, mouseY + 25, mouseX + 100, mouseY - 125)
+            bezier(mouseX - height / 40, mouseY, mouseX - height / 80, mouseY - height / 20, mouseX, mouseY + height / 80, mouseX + height / 40, mouseY - height / 40)
+            strokeWeight(height / 1000)
+            bezier(mouseX - height / 40, mouseY - height / 160, mouseX - height / 80, mouseY - height / 17.7777777777, mouseX, mouseY + height / 160, mouseX + height / 40, mouseY - height / 32)
         } else {
             if (mouseIsMoving == false) {
                 grandAlpha -= 0.004
             } else {
                 grandAlpha = 1
             }
-            strokeWeight(8)
+            strokeWeight(height / 500)
             stroke(baseC, 65, 50, grandAlpha)
-            line(mouseX - 50, mouseY - 50, mouseX + 50, mouseY + 50)
-            line(mouseX - 50, mouseY - 50, mouseX + 25, mouseY + 45)
-            line(mouseX - 45, mouseY - 30, mouseX + 30, mouseY + 0)
+            line(mouseX - height / 80, mouseY - height / 80, mouseX + height / 80, mouseY + height / 80)
+            line(mouseX - height / 80, mouseY - height / 80, mouseX + height / 160, mouseY + height / 88.8888888888)
+            line(mouseX - height / 88.8888888888, mouseY - height / 133.33333333, mouseX + height / 133.33333333, mouseY + 0)
             // line(mouseX - 50, mouseY - 50, mouseX + 25, mouseY + 45)
         }
     } else {
@@ -452,21 +447,21 @@ function draw() {
             }
 
             stroke(baseC, 50, 50, grandAlpha)
-            strokeWeight(100)
-            bezier(mouseX - 50, mouseY + 50, mouseX, mouseY, mouseX, mouseY, mouseX + 50, mouseY, +50)
-            strokeWeight(70)
-            bezier(mouseX - 50, mouseY + 50, mouseX, mouseY, mouseX, mouseY, mouseX + 40, mouseY, +60)
+            strokeWeight(height / 40)
+            bezier(mouseX - height / 80, mouseY + height / 80, mouseX, mouseY, mouseX, mouseY, mouseX + height / 80, mouseY, +height / 80)
+            strokeWeight(height / 57.14285714285714)
+            bezier(mouseX - height / 80, mouseY + height / 80, mouseX, mouseY, mouseX, mouseY, mouseX + height / 100, mouseY, +height / 66.66666666)
         } else {
             if (mouseIsMoving == false) {
                 grandAlpha -= 0.002
             } else {
                 grandAlpha = 0.4
             }
-            strokeWeight(100)
+            strokeWeight(height / 40)
             stroke(baseC, 50, 50, grandAlpha)
-            line(mouseX - 100, mouseY - 100, mouseX + 100, mouseY + 100)
-            strokeWeight(90)
-            line(mouseX - 90, mouseY - 110, mouseX + 110, mouseY + 80)
+            line(mouseX - height / 40, mouseY - height / 40, mouseX + height / 40, mouseY + height / 40)
+            strokeWeight(height / 44.44444444)
+            line(mouseX - height / 44.44444444, mouseY - height / 36.363636363636, mouseX + height / 36.363636363636, mouseY + height / 50)
         }
 
     }
@@ -498,13 +493,78 @@ function mouseMoved() {
 
 function mousePressed() {
     textRand = random(1)
-    if (dist(mouseX, mouseY, width / 2, height / 2) < 500) {
+    angleMan = random(20)
+    if (mouseX < width/2) {
+        cokluMult = random([0.5,2])
+    }else{
+        cokluMult = random([0.5,2])
+    }
+
+    if (mouseX < width/2) {
+        cokluMult2 = random([0.5,1,2])
+    }else{
+        cokluMult2 = random([4,5])
+    }
+    if (dist(mouseX, mouseY, width / 2, height / 2) < height / 8) {
+        colSel = colSel + 1
+        if(colSel == baseCArray.length){
+            colSel = 0
+        } 
         col()
     }
     // textRand3 = random(1)
 
     // points2.length = 0;
 
+}
+
+function windowResized(){
+    let sizeX = windowHeight
+    let sizeY = windowHeight
+    resizeCanvas(windowWidth, windowHeight);
+    canvas2.resizeCanvas(sizeX, sizeY);
+    canvas3.resizeCanvas(sizeX, sizeY);
+    canvas4.resizeCanvas(sizeX, sizeY);
+    canvas2.clear()
+    canvas3.clear()
+    canvas4.clear()
+
+    col()
+
+    // grad()
+
+    xoff = 0.001
+    yoff = 0.0001
+    zoff = 0.000001;
+
+    angulo = random(20);
+    background(0, 0, 9)
+
+    canvas2.background(0, 0, 9, 0)
+    canvas3.background(0, 0, 9, 0)
+    canvas4.background(0, 0, 9, 0)
+
+    translate(width / 2, height / 2)
+    canvas2.translate(canvas2.width / 2, canvas2.height / 2)
+    canvas3.translate(canvas3.width / 2, canvas3.height / 2)
+    canvas4.translate(canvas4.width / 2, canvas4.height / 2)
+
+    anguloIncremento = 5;
+
+    noCursor()
+
+    textRand = random(1)
+    cokluMult = random([1,2])
+    cokluMult2 = 2
+
+    points.length = 0;
+    canvas3Draw();
+    canvas2Draw();
+    canvas4Draw();
+
+
+    // canvas3Draw();
+    // canvas4Draw()
 }
 
 
