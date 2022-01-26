@@ -150,6 +150,7 @@ function setup() {
     noFill()
     smooth()
 
+    colSel = floor(random(5))
     col()
 
     // grad()
@@ -186,8 +187,9 @@ function setup() {
 }
 
 function col() {
-    baseCArray = [20,70,170, 200,250, 350];
+    baseCArray = [20,120,170, 200,250, 350];
     baseC = baseCArray[colSel]
+    // baseC = 120
     baseS = 30;
     baseB = 20;
 
