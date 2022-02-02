@@ -1,6 +1,6 @@
 # Magnificum
 
-Magnificum is an interactive work. **Click [here](https://ilginicozu.github.io/MicroMacro/)** to see the work.
+Magnificum is an interactive work. **Click [here](https://ilginicozu.github.io/Magnificum/)** to see the work.
 
 ### Instructions
 
