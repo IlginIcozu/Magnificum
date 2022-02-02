@@ -261,7 +261,7 @@ function canvas2Draw() {
 
             alphaD2 = map(dist(canvas2.width / 2, canvas2.height / 2, x, y), 0, canvas2.height, random(0.3), random(0.6, 1))
 
-            canvas2.stroke(hsbModify2(baseCol, (x + y) / 120, random(30, 50), random(80, 100)))
+            canvas2.stroke(hsbModify2(baseCol, (x + y) / 140, random(30, 50), random(80, 100)))
 
             canvas2.strokeWeight(random(0.15) * angle)
 
@@ -474,6 +474,7 @@ function mouseMoved() {
 function mousePressed() {
     textRand = random(1)
     angleMan = random(20)
+    angleInc = 5;
     if (mouseX < width / 2) {
         cokluMult = random([0.5, 2])
     } else {
