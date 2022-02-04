@@ -16,6 +16,7 @@ let alphaD, alphaD2
 let minX, maxX, minY, maxY
 let centerX, centerY
 let rad
+let den
 
 let circles = []
 let sCircles
@@ -166,6 +167,7 @@ function setup() {
     noCursor()
 
     textRand = random(1)
+
     cokluMult = random([1, 2])
     cokluMult2 = 4
 
@@ -211,7 +213,7 @@ function canvas3Draw() {
     canvas3.scale(canvas3Scale / 8)
     for (let y = -300; y <= height + 100; y += height / 80) {
         canvas3.beginShape()
-        a = abs(sin(angleMan) + 5) * 5;
+        a = (sin(angleMan) + 5) * 5;
         for (let x = -300; x <= canvas3.width + 100; x += height / 200 * cokluMult) {
             angle = map(noise.noise2D(x * mult, y * mult), 0, 1, 0, TWO_PI * 10);
 
@@ -229,7 +231,7 @@ function canvas3Draw() {
                 canvas3.curveVertex((x + tan(angle) * a) + randomGaussian(-10, 10), (y + tan(angle) * a) + randomGaussian(-10, 10))
             }
 
-            if (random(1) > random(0.1, 0.9)) {
+            if (random(1) > 0.4) {
                 canvas3.endShape();
                 canvas3.beginShape();
             }
@@ -254,16 +256,16 @@ function canvas2Draw() {
     canvas2.scale(zoomScl / 4)
     for (let y = -300; y <= height + 100; y += height / 80) {
         canvas2.beginShape()
-        a = abs(sin(angleMan) + 5) * 5;
-        for (let x = -300; x <= canvas2.width + 100; x += height / 400 * cokluMult2) {
+        a = (sin(angleMan) + 5) * 5;
+        for (let x = -300; x <= canvas2.width + 100; x += height / 200 * cokluMult2 ) {
 
             angle = map(noise.noise2D(x * mult, y * mult), 0, 1, 0, TWO_PI * 10);
 
-            alphaD2 = map(dist(canvas2.width / 2, canvas2.height / 2, x, y), 0, canvas2.height, random(0.3), random(0.6, 1))
+            alphaD2 = map(dist(canvas2.width / 2, canvas2.height / 2, x, y), 0, canvas2.height, 0, random(0.6, 1))
 
-            canvas2.stroke(hsbModify2(baseCol, (x + y) / 140, random(30, 50), random(80, 100)))
+            canvas2.stroke(hsbModify2(baseCol, (x + y) / 140, random(30, 50), random(60, 80)))
 
-            canvas2.strokeWeight(random(0.15) * angle)
+            canvas2.strokeWeight(random(height/8000) * angle)
 
             canvas2.rotate(a / 1000)
 
@@ -279,9 +281,16 @@ function canvas2Draw() {
                 canvas2.curveVertex((x + sin(angle) * a) + random(-10, 10), (y + sin(angle) * a) + random(-10, 10)) // silik 2
             }
 
-            if (random(1) > 0.9) {
+             
+            if(height > 1000){
+                den = 0.8
+            }else{
+                den = 0.7
+            }
+            if (random(1) > den) {  
                 canvas2.endShape();
                 canvas2.beginShape();
+                
             }
             angleMan += angleInc;
             canvas2.endShape();
@@ -482,7 +491,7 @@ function mousePressed() {
     }
 
     if (mouseX < width / 2) {
-        cokluMult2 = random([0.5, 1, 2])
+        cokluMult2 = random([1, 2, 3])
     } else {
         cokluMult2 = random([2, 3, 4])
     }
@@ -493,6 +502,8 @@ function mousePressed() {
         }
         col()
     }
+
+    
 }
 
 function windowResized() {
